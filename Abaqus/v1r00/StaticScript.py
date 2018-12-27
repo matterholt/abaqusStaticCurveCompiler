@@ -60,7 +60,6 @@ def FileNameData(staticFile):
         staticFile["loadCase"] = matchName.group(2)
         staticFile["inpName"] = staticFile[0:-4] + '.inp'
 
-
 """
 Node Load
 Function will search through the file line by line looking for the Regex pattern
