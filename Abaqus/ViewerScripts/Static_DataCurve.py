@@ -23,12 +23,15 @@ import os
 def ConfirmResultDir ():
     """ Check if folder is created for result .csv"""
     #TODO make paths for folder compatiable with other OS
-    path = os.path.join("00__Results")
+    path = os.path.join(".","00__Results")
     checkFolder = os.path.isdir("path")
     absPath = os.path.abspath(path)
     if checkFolder == False:
-        os.mkdir(".\\00__Results")
-        print("Folder created. \n {} ".format(absPath))
+        os.mkdir(path)
+        print("Folder created in: \n {} ".format(absPath))
+        return (path)
+    else:
+        return path
 
 def CurveCompile ( disp, force):
     """Takes raw data, refinds it for a curve"""
