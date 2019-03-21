@@ -53,6 +53,7 @@ def main ():
         """
         if name_v_r == sys.argv[0]:
             print("Folder will have default name 'XXXXX'")
+            confirm = input("Is that OK ? (y)")
             if confirm == "y" :
                 folder_name = "XXXXX"
                 # print("Folder create {}" .format(folder_name))
@@ -66,7 +67,7 @@ def main ():
             #print("Folder created {}".format(name_v_r))
             return name_v_r
 
-    """ Step 1: """
+    """ Step 1:  check if argv is OK, will return folder name"""
     version_revision_name = check_argv(folder_argv)
     print("Folder create {}".format(version_revision_name))
 
@@ -78,13 +79,13 @@ def main ():
         """
         list_name = name_conv.split(".")
         if len(list_name) >= 3:
-            check_name_three = v + list_name[0] + sep + r + list_name[1] + sep + list_name[3]
+            check_name_three = V + list_name[0] + sep + R + list_name[1] + sep + list_name[2]
             return check_name_three
         elif len(list_name) == 2:
-            check_name_two = v + list_name[0] + sep + r + list_name[1]
+            check_name_two = V + list_name[0] + sep + R + list_name[1]
             return check_name_two
         else :
-            check_name = v + name_conv[:2] + sep + r + name_conv[2:]
+            check_name = R + name_conv[:2] + sep + R + name_conv[2:]
             return check_name
     
     """ Step 2 """
@@ -99,29 +100,15 @@ def main ():
         working dir is or where analysis file are saved and ran
         """
         new_folder_name = working_dir + folder_name
-        shutil.copytree(copy_contents_folder, new_folder_name)
-
+        if os.path.isdir(new_folder_name):
+            print("Folder ready in directory !!")
+            sys.exit("Scirpt has bee terminated")
+        else:
+            shutil.copytree(copy_contents_folder, new_folder_name)
+    
     """Step 3:"""
     create_folder(folder_name_structure)
 
-
-    def need_update_file ():
-        """
-        Some mesh files need to be updated with version and revision name
-        """
-        need_change = input("Does mesh.inp file need name update, y to continue : ")
-        if need_change == "y" or need_change == "y": # NEED TO CHECK
-            dirs = os.listdir(working_dir)
-            for file in dirs:
-                pattern_file = r"(mesh.*)[vV]\d+[rR]\d+(.\.inp)"
-                match_file = re.fullmatch(pattern_file, file)
-                if match_file:
-                    file_rename_to = match_file.group(1) + folder_name_structure + match_file.group(2)
-                    print("Old file name --> {}".format(file))
-                    print("Rename file name --> {}".format(file_rename_to))
-                    os.rename(working_dir + "\\" + file, working_dir + "\\" + file_rename_to)
-        else:
-            break
     print("File are copied to new folder")
     print("Job Completed Buddy !! \n")
 
